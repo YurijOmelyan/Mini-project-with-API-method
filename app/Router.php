@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/listConstants.php';
 
 /**
  * Class Router redirects to the desired class, depending on the request
@@ -11,8 +12,7 @@ class Router
      */
     public function run()
     {
-        $controllerName = $this->getNameController();
-        require PATH_CONTROLLER . $controllerName . '.php';
+        $controllerName = 'controllers\\' . $this->getNameController();
         $object = new $controllerName();
         $object->run();
     }

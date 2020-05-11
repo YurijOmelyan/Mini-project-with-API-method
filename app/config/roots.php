@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'load' => 'CurrencyLoadingСontroller',
+    'load' => 'CurrencyLoadingController',
     'api' => 'ApiController',
     'login' => 'FormController',
     'getData' => 'DataController',

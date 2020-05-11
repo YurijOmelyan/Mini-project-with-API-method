@@ -1,5 +1,7 @@
 <?php
 
+namespace controllers\models;
+
 /**
  * ApiModel class implements API method
  */
@@ -15,8 +17,7 @@ class ApiModel
      */
     public function __construct()
     {
-        require_once DATA_BASE_CONNECTION;
-        $this->db = new DatabaseConnection();
+        $this->db = new services\DatabaseConnection();
     }
 
     /**s

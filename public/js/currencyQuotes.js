@@ -17,6 +17,12 @@ $(document).ready(
 function getDataForDate(data) {
     $.get('getData', data, 'json').done(function (json) {
         let res = JSON.parse(json);
+        if (('form') in res) {
+            location.replace(res.form);
+            document.location.replace(res.form);
+            return;
+        }
+
         if ('data' in res) {
             showMessage(res.data);
             return;

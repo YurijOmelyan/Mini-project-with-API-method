@@ -1,5 +1,10 @@
 <?php
 
+namespace controllers\models;
+
+
+use DOMDocument;
+
 /**
  * Class CurrencyLoadingModel implements data loading into the database
  */
@@ -16,8 +21,7 @@ class CurrencyLoadingModel
      */
     public function __construct()
     {
-        require_once DATA_BASE_CONNECTION;
-        $this->db = new DatabaseConnection();
+        $this->db = new services\DatabaseConnection();
     }
 
     /**
@@ -32,7 +36,7 @@ class CurrencyLoadingModel
 
     /**
      * This method populates the database in the last 30 days.
-     * @param $listCurrency list of currencies
+     * @param $listCurrency list of currmodelsencies
      * @return string результат выполнения
      * @throws Exception Data not saved to database
      */
@@ -51,7 +55,7 @@ class CurrencyLoadingModel
                     $sql = 'INSERT INTO currency SET ';
                     $sql .= "valuteID = '{$index['id']}', ";
                     $sql .= "numCode = '{$index['numCode']}', ";
-                    $sql .= "charCode = '{$index['сharCode']}', ";
+                    $sql .= "charCode = '{$index['charCode']}', ";
                     $sql .= "name = '{$index['name']}', ";
                     $sql .= "value = {$value}, ";
                     $sql .= "date = '{$date}';";
@@ -81,7 +85,7 @@ class CurrencyLoadingModel
                 $arr[] = [
                     'id' => $el->attributes[0]->nodeValue,
                     'numCode' => $el->childNodes[0]->nodeValue,
-                    'сharCode' => $el->childNodes[1]->nodeValue,
+                    'charCode' => $el->childNodes[1]->nodeValue,
                     'name' => $el->childNodes[3]->nodeValue
                 ];
             }

@@ -1,12 +1,16 @@
 <?php
 
+namespace controllers\models\services;
+
+use Exception;
+
 /**
  * The DatabaseConnection class implements a database connection.
  */
 class DatabaseConnection
 {
     /**
-     * @var array|mixed  array of settings for the database
+     * @var array  array of settings for the database
      */
     private array $bdSetting;
     /**
@@ -16,6 +20,7 @@ class DatabaseConnection
 
     /**
      * DatabaseConnection constructor.
+     * @throws Exception
      */
     public function __construct()
     {

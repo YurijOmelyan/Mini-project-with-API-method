@@ -1,5 +1,7 @@
 <?php
 
+namespace controllers\models;
+
 /**
  * Class DataModel selects data from the database upon request from the website
  */
@@ -16,8 +18,7 @@ class DataModel
      */
     public function __construct()
     {
-        require_once DATA_BASE_CONNECTION;
-        $this->db = new DatabaseConnection();
+        $this->db = new services\DatabaseConnection();
     }
 
     /**
@@ -26,6 +27,10 @@ class DataModel
      */
     public function run(): array
     {
+        if (!isset($_SESSION['user'])) {
+            return ['form' => 'http://localhost'];
+        }
+
         $verifiedData = $this->dataMatchPattern($_GET);
         if (!$verifiedData['valid']) {
             return $verifiedData['data'];

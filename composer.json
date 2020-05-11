@@ -1,0 +1,22 @@
+{
+  "name": "user/test",
+  "authors": [
+    {
+      "name": "Yuriy Omelyan",
+      "email": "omelyan.yuriy@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-mysqli": "*",
+    "ext-mbstring": "*",
+    "ext-dom": "*",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "app",
+      "controllers\\models\\": "app/models",
+      "controllers\\models\\services\\": "app/services"
+    }
+  }
+}

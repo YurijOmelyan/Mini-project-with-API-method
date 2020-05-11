@@ -1,5 +1,7 @@
 <?php
 
+namespace controllers\models;
+
 /**
  * Class FormModel returns the path to the form depending on the request received
  */
@@ -11,26 +13,27 @@ class FormModel
      */
     public function run(): array
     {
-        if (!isset($_GET['q'])) {
+        if (!isset($_POST['login']) or !isset($_POST['email']) or !isset($_POST['pass'])) {
             return ['form' => FORM_LOGIN];
         }
 
-        return $this->getForm();
+        return $this->getForm($_POST);
     }
 
     /**
      * This method determines which form should be returned depending on the request.
+     * @param $post
      * @return array query result
      */
-    private function getForm(): array
+    private function getForm($post): array
     {
-        $verifiedData = $this->dataMatchPattern($_GET);
+        $verifiedData = $this->dataMatchPattern($post);
         if (!$verifiedData['valid']) {
-            $verifiedData['form'] = FORM_LOGIN;
+            $result['form'] = FORM_LOGIN;
             return $verifiedData;
         }
 
-        $_SESSION[$verifiedData['data']['email']] = $verifiedData['data']['pass'];
+        $_SESSION['user'] = [$verifiedData['data']];
         $verifiedData['form'] = FORM_TABLE;
         return $verifiedData;
     }
