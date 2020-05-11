@@ -36,7 +36,7 @@ class CurrencyLoadingModel
 
     /**
      * This method populates the database in the last 30 days.
-     * @param $listCurrency list of currmodelsencies
+     * @param $listCurrency List of currencies
      * @return string результат выполнения
      * @throws Exception Data not saved to database
      */
