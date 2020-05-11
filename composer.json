@@ -7,10 +7,6 @@
     }
   ],
   "require": {
-    "ext-mysqli": "*",
-    "ext-mbstring": "*",
-    "ext-dom": "*",
-    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
