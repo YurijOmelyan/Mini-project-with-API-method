@@ -2,6 +2,8 @@
 
 namespace controllers\models;
 
+use controllers\models\services\Validator;
+
 /**
  * ApiModel class implements API method
  */
@@ -26,54 +28,12 @@ class ApiModel
      */
     public function run(): array
     {
-        $verifiedData = $this->dataMatchPattern($_GET);
+        $verifiedData = Validator::validationDataApiMethod($_GET);
         if (!$verifiedData['valid']) {
-            return $verifiedData['data'];
+            return $verifiedData;
         }
 
-        return $this->getQueryResult($verifiedData['data']);
-    }
-
-    /**
-     * This method checks the data received in the request.
-     * @param $data data from the request
-     * @return array result of checking
-     */
-    private function dataMatchPattern($data): array
-    {
-        $result['valid'] = 1;
-
-        if (!is_array($data) or count($data) !== 4) {
-            $result['valid'] = 0;
-            $result['data'] = 'Error. GET method parameters do not match the pattern.';
-            return $result;
-        }
-
-        if (!isset($data['date_req1']) or !isset($data['date_req2']) or !isset($data['valuteID'])) {
-            $result['valid'] = 0;
-            $result['data'] = 'Error. The passed parameter names do not match the pattern.';
-            return $result;
-        }
-
-        if (!date_create_from_format('Y-m-d', $data['date_req1'])
-            or !date_create_from_format('Y-m-d', $data['date_req2'])) {
-            $result['valid'] = 0;
-            $result['data'] = 'Error. The specified date does not match the pattern.';
-            return $result;
-        }
-
-        if (!preg_match('/^R\d{5}[a-zA-Z]?$/', $data['valuteID'])) {
-            $result['valid'] = 0;
-            $result['data'] = 'Error. Parameter value ValueID does not match the pattern.';
-            return $result;
-        }
-
-        $result['data'] = [
-            'dateStart' => $data['date_req1'] < $data['date_req2'] ? $data['date_req1'] : $data['date_req2'],
-            'dateEnd' => $data['date_req1'] > $data['date_req2'] ? $data['date_req1'] : $data['date_req2'],
-            'valuteID' => $data['valuteID']
-        ];
-        return $result;
+        return $this->getQueryResult($verifiedData);
     }
 
     /**
@@ -84,10 +44,9 @@ class ApiModel
     private function getQueryResult($data): array
     {
         $sql = 'SELECT valuteID, numCode, charCode, name, value FROM currency ';
-        $sql .= "WHERE valuteID = '{$data['valuteID']}' AND date BETWEEN '{$data['dateStart']}' AND '{$data['dateEnd']}'";
+        $sql .= "WHERE valuteID = '{$data['valuteID']['data']}'";
+        $sql .= "AND date BETWEEN '{$data['date_req1']['data']}' AND '{$data['date_req2']['data']}'";
 
-        $result = $this->db->getData($sql);
-
-        return $result;
+        return $this->db->getData($sql);
     }
 }
